@@ -15,8 +15,8 @@ from reportlab.lib.styles import getSampleStyleSheet
 # PAGE CONFIG
 # --------------------------------------------------
 st.set_page_config(
-    page_title="FraudGuard – Online Payment Fraud Detection",
-    page_icon="🛡️",
+    page_title="Fraud Detection – Online Payment Fraud Detection",
+    page_icon="�️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -28,7 +28,7 @@ def set_bg(path):
         st.markdown(f"""
         <style>
         .stApp {{
-            background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.9)),
+            background:linear-gradient(rgba(255,255,255,.95),rgba(245,245,250,.98)),
             url(data:image/png;base64,{encoded});
             background-size:cover;
         }}
@@ -54,7 +54,7 @@ if not st.session_state.logged_in:
 
     st.markdown("""
     <div class="login-card">
-        <h2 style="text-align:center;">🔐 FraudGuard Login</h2>
+        <h2 style="text-align:center;">🕵️ Fraud Detection Login</h2>
     </div>
     """, unsafe_allow_html=True)
 
@@ -76,6 +76,11 @@ if not st.session_state.logged_in:
 # --------------------------------------------------
 st.markdown("""
 <style>
+/* Light white background theme */
+.stApp {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5fa 100%) !important;
+}
+
 /* Fix blurriness and improve rendering */
 * {
     -webkit-font-smoothing: antialiased;
@@ -83,26 +88,36 @@ st.markdown("""
     text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, p, label {
-    color: inherit !important;
+h1, h2, h3, h4 {
+    color: #1F2937 !important;
 }
+
+p, label {
+    color: #374151 !important;
+}
+
 .stMarkdown, .stTextInput label, .stSelectbox label {
     font-size: 16px;
     font-weight: 500;
+    color: #1F2937 !important;
 }
+
 .card {
     line-height: 1.7;
     padding: 20px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     margin: 10px 0;
 }
+
 /* Enhanced button styling */
 button {
     font-weight: 600 !important;
     border-radius: 8px !important;
 }
+
 /* SVM Model Badge */
 .svm-badge {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -114,13 +129,14 @@ button {
     margin: 10px auto;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
-/* Improved header styling */
+/* Improved header styling for light theme */
 .main-header {
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
     margin-bottom: 30px;
+    border: 1px solid #E5E7EB;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -131,9 +147,9 @@ button {
 # --------------------------------------------------
 st.markdown("""
 <div class="main-header">
-    <h1 style="text-align:center; color: white; margin: 0;">🛡️ FRAUDGUARD</h1>
+    <h1 style="text-align:center; color: white; margin: 0;">🕵️ FRAUD DETECTION</h1>
     <h2 style="text-align:center; color: #E0E7FF; margin: 10px 0; font-size: 24px;">Online Payment Fraud Detection System</h2>
-    <p style="text-align:center; color: #C7D2FE; font-size: 16px;">🤖 AI-Powered Machine Learning Dashboard | 🎯 Real-Time Risk Scoring | ⚡ Pre-Transaction Fraud Prevention</p>
+    <p style="text-align:center; color: #C7D2FE; font-size: 16px;">🤖 AI-Powered ML Dashboard | 🎯 Real-Time Risk Analysis | ⚡ Detect Fraud BEFORE Transaction</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -186,9 +202,9 @@ model.fit(X_train, y_train)
 if nav == "🏠 Home":
     st.markdown("""
     <div class="card">
-    <h2>🚀 Welcome to FraudGuard - Enterprise-Grade Fraud Detection System</h2>
+    <h2>🚀 Welcome to Fraud Detection - Enterprise-Grade Fraud Detection System</h2>
     <p style="font-size: 17px; line-height: 1.9;">
-    <strong>FraudGuard</strong> is an advanced AI-powered fraud detection platform that provides <strong>real-time</strong> 
+    <strong>Fraud Detection</strong> is an advanced AI-powered fraud detection platform that provides <strong>real-time</strong> 
     protection for online payment transactions. Our system uses state-of-the-art machine learning algorithms to 
     identify suspicious activities <strong>before</strong> transactions are completed, preventing financial losses and 
     protecting both businesses and consumers.
@@ -219,10 +235,10 @@ if nav == "🏠 Home":
     </div>
     
     <div class="card">
-    <h3>🛡️ Why FraudGuard?</h3>
+    <h3>🛡️ Why Fraud Detection?</h3>
     <p style="font-size: 16px; line-height: 1.8;">
     Online payment fraud costs businesses billions annually. Traditional rule-based systems can't keep up with 
-    sophisticated fraud patterns. FraudGuard uses <strong>adaptive machine learning</strong> that continuously learns 
+    sophisticated fraud patterns. Fraud Detection uses <strong>adaptive machine learning</strong> that continuously learns 
     from new data, identifying emerging fraud tactics. Our system analyzes transaction amounts, types, balance changes, 
     and behavioral patterns to detect anomalies that human reviewers might miss.
     </p>
@@ -249,9 +265,14 @@ elif nav == "📊 Visualization":
             x=target_col,
             title="Fraud vs Non-Fraud Transaction Count",
             color=target_col,
-            color_discrete_sequence=px.colors.qualitative.Set2
+            color_discrete_sequence=['#10B981', '#EF4444']  # Green for safe, red for fraud
         )
-        fig1.update_layout(title_x=0.5)
+        fig1.update_layout(
+            title_x=0.5,
+            plot_bgcolor='rgba(255,255,255,0.95)',
+            paper_bgcolor='rgba(255,255,255,0.95)',
+            font=dict(size=14, color='#1F2937')
+        )
         st.plotly_chart(fig1, use_container_width=True)
 
     with col2:
@@ -260,9 +281,14 @@ elif nav == "📊 Visualization":
             x=cat_cols[0],
             color=target_col,
             title="Fraud Distribution by Transaction Type",
-            color_discrete_sequence=px.colors.qualitative.Bold
+            color_discrete_sequence=['#10B981', '#EF4444']
         )
-        fig2.update_layout(title_x=0.5)
+        fig2.update_layout(
+            title_x=0.5,
+            plot_bgcolor='rgba(255,255,255,0.95)',
+            paper_bgcolor='rgba(255,255,255,0.95)',
+            font=dict(size=14, color='#1F2937')
+        )
         st.plotly_chart(fig2, use_container_width=True)
 
     fig3 = px.scatter(
@@ -271,9 +297,14 @@ elif nav == "📊 Visualization":
         y=num_cols[1],
         color=target_col,
         title="Transaction Amount vs Balance (Fraud Risk Zone)",
-        color_continuous_scale="Turbo"
+        color_discrete_sequence=['#10B981', '#EF4444']
     )
-    fig3.update_layout(title_x=0.5)
+    fig3.update_layout(
+        title_x=0.5,
+        plot_bgcolor='rgba(255,255,255,0.95)',
+        paper_bgcolor='rgba(255,255,255,0.95)',
+        font=dict(size=14, color='#1F2937')
+    )
     st.plotly_chart(fig3, use_container_width=True)
 
     cm = confusion_matrix(y_test, model.predict(X_test))
@@ -281,9 +312,15 @@ elif nav == "📊 Visualization":
         cm,
         text_auto=True,
         title="Model Confusion Matrix (Prediction Performance)",
-        color_continuous_scale="Blues"
+        color_continuous_scale="RdYlGn_r",
+        labels=dict(x="Predicted", y="Actual", color="Count")
     )
-    fig4.update_layout(title_x=0.5)
+    fig4.update_layout(
+        title_x=0.5,
+        plot_bgcolor='rgba(255,255,255,0.95)',
+        paper_bgcolor='rgba(255,255,255,0.95)',
+        font=dict(size=14, color='#1F2937')
+    )
     st.plotly_chart(fig4, use_container_width=True)
 
 
@@ -294,9 +331,10 @@ elif nav == "🔍 Prediction":
 
     st.markdown("""
     <div class='card'>
-        <h3>🔍 Pre-Transaction Fraud Risk Prediction</h3>
-        <p style='color: #DC2626; font-weight: bold;'>⚠️ FRAUD DETECTION BEFORE TRANSACTION COMPLETION</p>
-        <p>Enter transaction details below to analyze fraud risk BEFORE processing the payment</p>
+        <h3>�️ Pre-Transaction Fraud Risk Analysis</h3>
+        <p style='color: #DC2626; font-weight: bold;'>⚠️ DETECT FRAUD BEFORE PAYMENT - NOT AFTER!</p>
+        <p style='color: #059669; font-weight: bold;'>✅ Analyze fraud risk BEFORE processing the transaction</p>
+        <p>Enter transaction details below to get real-time fraud prediction on previous transaction patterns</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -501,7 +539,7 @@ elif nav == "ℹ️ About":
     st.markdown("""
     <div class="card">
     <p>
-    FraudGuard – Enhanced Online Payment Fraud Detection System is a professional, 
+    Fraud Detection – Enhanced Online Payment Fraud Detection System is a professional, 
     machine learning–based web application designed to identify and analyze fraudulent online payment transactions in real time. 
     The system leverages historical transaction data and advanced classification algorithms to predict the likelihood of fraud and generate an interpretable fraud risk score expressed as a percentage.
 
