@@ -49,42 +49,31 @@ if (selected == 'online fraud using ml'):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-
-        step	  = st.text_input(' step')
+        step = st.number_input('step', min_value=0.0, value=0.0)
         
     with col2:
-
-        type	 = st.text_input('type')
-    
-
-    with col3:
-
-        amount	 = st.text_input('amount')
+        type = st.number_input('type (encoded)', min_value=0.0, value=0.0, help='0-4: PAYMENT, TRANSFER, CASH_OUT, DEBIT, CASH_IN')
     
     with col3:
-         
-         oldbalanceOrg	 = st.text_input(' oldbalanceOrg')
+        amount = st.number_input('amount', min_value=0.0, value=0.0)
     
     with col1:
-       
-       newbalanceOrig		 = st.text_input('newbalanceOrig')
-       
+        oldbalanceOrg = st.number_input('oldbalanceOrg', min_value=0.0, value=0.0)
+    
     with col2:
-         
-         oldbalanceDest = st.text_input(' oldbalanceDest ')
+        newbalanceOrig = st.number_input('newbalanceOrig', min_value=0.0, value=0.0)
+       
+    with col3:
+        oldbalanceDest = st.number_input('oldbalanceDest', min_value=0.0, value=0.0)
 
     with col1:
-
-        newbalanceDest		  = st.text_input('newbalanceDest')
+        newbalanceDest = st.number_input('newbalanceDest', min_value=0.0, value=0.0)
         
     with col2:
-
-        errorBalanceOrig	 = st.text_input('errorBalanceOrig')
+        errorBalanceOrig = st.number_input('errorBalanceOrig', value=0.0)
     
-
     with col3:
-
-        errorBalanceDest		 = st.text_input('errorBalanceDest')   
+        errorBalanceDest = st.number_input('errorBalanceDest', value=0.0)   
 
        
 
@@ -97,9 +86,21 @@ if (selected == 'online fraud using ml'):
     # creating a button for Prediction
     
     if st.button('Result'):
-        diab_prediction = diabetes_model.predict([[ step,type,amount,oldbalanceOrg,newbalanceOrig,oldbalanceDest,newbalanceDest,errorBalanceOrig,errorBalanceDest]])
-
-        st.success('The output is {}'.format(diab_prediction ))
+        try:
+            # Ensure all inputs are converted to proper numeric types
+            input_data = [[float(step), float(type), float(amount), float(oldbalanceOrg), 
+                          float(newbalanceOrig), float(oldbalanceDest), float(newbalanceDest), 
+                          float(errorBalanceOrig), float(errorBalanceDest)]]
+            
+            diab_prediction = diabetes_model.predict(input_data)
+            
+            if diab_prediction[0] == 0:
+                st.success('✅ Result: NO FRAUD - Transaction is legitimate')
+            else:
+                st.error('🚨 Result: FRAUD DETECTED - High risk transaction!')
+        except Exception as e:
+            st.error(f'Error in prediction: {str(e)}')
+            st.info('Please ensure all fields are filled with valid numeric values.')
         
         
 

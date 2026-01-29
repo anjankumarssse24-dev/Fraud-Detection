@@ -11,9 +11,12 @@ data = {
 
 df = pd.DataFrame(data)
 
-# Train the classifier (you need to replace this with your own training process)
-clf = RandomForestClassifier()
-clf.fit(df[['amount']], df['type'])
+# Add fraud label based on transaction type
+df['is_fraud'] = df['type'].apply(lambda x: 1 if x in ['TRANSFER', 'CASH_OUT'] else 0)
+
+# Train the classifier properly
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(df[['amount']], df['is_fraud'])
 
 # Function to predict fraud status for a new transaction ID
 def predict_fraud(transaction_id, amount, clf):
@@ -21,10 +24,10 @@ def predict_fraud(transaction_id, amount, clf):
     prediction = clf.predict(input_data)[0]
     return prediction
 
-# Function to check if a transaction type is fraudulent
-def is_fraud(transaction_type):
-    fraudulent_types = ['TRANSFER', 'CASH_OUT']  # List of known fraudulent transaction types
-    return transaction_type in fraudulent_types
+# Function to check if a transaction is fraudulent
+def is_fraud(prediction):
+    # prediction is 0 (not fraud) or 1 (fraud)
+    return prediction == 1
 
 # Streamlit code
 #st.title("Fraud Detection System")
@@ -51,14 +54,16 @@ elif page == "Prediction":
 
     # Button to check fraud for the entered transaction
     if st.button("Check Fraud"):
-        if clf:
+        if transaction_id and amount > 0:
             prediction = predict_fraud(transaction_id, amount, clf)
             if is_fraud(prediction):
-                st.write(f"Fraud Status for Transaction ID {transaction_id}: FRAUD (Transaction Type: {prediction})")
+                st.error(f"🚨 Fraud Status for Transaction ID {transaction_id}: **FRAUD DETECTED**")
+                st.warning(f"Amount: ${amount:.2f} - High risk transaction!")
             else:
-                st.write(f"Fraud Status for Transaction ID {transaction_id}: NOT FRAUD (Transaction Type: {prediction})")
+                st.success(f"✅ Fraud Status for Transaction ID {transaction_id}: **LEGITIMATE**")
+                st.info(f"Amount: ${amount:.2f} - Safe to proceed")
         else:
-            st.write("Please train the model first.")
+            st.warning("Please enter a valid Transaction ID and Amount.")
 
     # Input fields for new transaction ID and amount for prediction
     new_transaction_id = st.text_input("Enter New Transaction ID:")
@@ -66,14 +71,16 @@ elif page == "Prediction":
 
     # Button to predict fraud for the new transaction
     if st.button("Predict Fraud for New Transaction"):
-        if clf:
+        if new_transaction_id and new_amount > 0:
             new_prediction = predict_fraud(new_transaction_id, new_amount, clf)
             if is_fraud(new_prediction):
-                st.write(f"Fraud Status for New Transaction ID {new_transaction_id}: FRAUD (Transaction Type: {new_prediction})")
+                st.error(f"🚨 Fraud Status for New Transaction ID {new_transaction_id}: **FRAUD DETECTED**")
+                st.warning(f"Amount: ${new_amount:.2f} - High risk transaction!")
             else:
-                st.write(f"Fraud Status for New Transaction ID {new_transaction_id}: NOT FRAUD (Transaction Type: {new_prediction})")
+                st.success(f"✅ Fraud Status for New Transaction ID {new_transaction_id}: **LEGITIMATE**")
+                st.info(f"Amount: ${new_amount:.2f} - Safe to proceed")
         else:
-            st.write("Please train the model first.")
+            st.warning("Please enter a valid Transaction ID and Amount.")
 
 elif page == "About":
     st.header("About Page")

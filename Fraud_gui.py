@@ -159,7 +159,7 @@ st.markdown("""
 st.markdown("<h3 style='text-align: center; color: #4F46E5;'>📍 Navigation Dashboard</h3>", unsafe_allow_html=True)
 nav = st.radio(
     "",
-    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "📄 Report", "ℹ️ About"],
+    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "🚫 Fraud Prevention", "📄 Report", "ℹ️ About"],
     horizontal=True,
     key="navigation"
 )
@@ -435,14 +435,14 @@ elif nav == "🔍 Prediction":
             # Risk Gauge Chart
             fig_gauge = px.bar(
                 x=[prob, 100-prob],
-                y=['Risk Level'],
+                y=['Fraud Risk', 'Legitimate'],
                 orientation='h',
                 title=f"Fraud Risk Score: {prob:.2f}%",
                 labels={'x': 'Percentage', 'y': ''},
-                color=['Fraud Risk', 'Safe'],
-                color_discrete_map={'Fraud Risk': '#EF4444' if prob > 70 else '#F59E0B' if prob > 40 else '#10B981', 'Safe': '#E5E7EB'}
+                color=['Fraud Risk', 'Legitimate'],
+                color_discrete_map={'Fraud Risk': '#EF4444' if prob > 70 else '#F59E0B' if prob > 40 else '#10B981', 'Legitimate': '#E5E7EB'}
             )
-            fig_gauge.update_layout(showlegend=False, height=250)
+            fig_gauge.update_layout(showlegend=True, height=250, barmode='stack')
             st.plotly_chart(fig_gauge, use_container_width=True)
         
         with col2:
@@ -531,6 +531,125 @@ elif nav == "📄 Report":
         )
 
 
+
+# --------------------------------------------------
+# FRAUD PREVENTION - HOW TO BLOCK DETECTED FRAUD
+# --------------------------------------------------
+elif nav == "🚫 Fraud Prevention":
+    st.markdown("""
+    <div class='card'>
+        <h2>🚫 Fraud Prevention & Blocking Guide</h2>
+        <p style='font-size: 17px; line-height: 1.9;'>
+        This section explains how to <strong>block and prevent fraudulent transactions</strong> that have been detected 
+        by our system, based on previous fraud patterns and ML predictions.
+        </p>
+    </div>
+    
+    <div class='card'>
+        <h3>🛑 How to Block Previously Detected Fraud</h3>
+        <p style='font-size: 16px; line-height: 1.8;'>
+        When our system identifies a transaction as fraudulent (based on historical patterns), you should take the following steps:
+        </p>
+        <ol style='font-size: 16px; line-height: 1.8;'>
+            <li><strong>Review the Prediction:</strong> Check the fraud probability percentage and risk level in the 🔍 Prediction section</li>
+            <li><strong>High Risk (>70%):</strong> Immediately <span style='color: #DC2626; font-weight: bold;'>BLOCK</span> the transaction before processing</li>
+            <li><strong>Medium Risk (40-70%):</strong> Flag for <span style='color: #F59E0B; font-weight: bold;'>MANUAL REVIEW</span> by fraud team</li>
+            <li><strong>Low Risk (<40%):</strong> Allow transaction to proceed with <span style='color: #10B981; font-weight: bold;'>MONITORING</span></li>
+            <li><strong>Document the Decision:</strong> Generate a 📄 Report for audit trail and compliance</li>
+        </ol>
+    </div>
+    
+    <div class='card'>
+        <h3>⚡ Real-Time Fraud Prevention Steps</h3>
+        <table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
+            <tr style='background-color: #F3F4F6;'>
+                <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>Step</th>
+                <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>Action</th>
+                <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>System Response</th>
+            </tr>
+            <tr>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>1. Detection</strong></td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>ML model analyzes transaction before completion</td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Fraud probability calculated in milliseconds</td>
+            </tr>
+            <tr style='background-color: #F9FAFB;'>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>2. Risk Assessment</strong></td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>System assigns risk level (High/Medium/Low)</td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Visual alerts displayed with color coding</td>
+            </tr>
+            <tr>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>3. Block Decision</strong></td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Admin reviews and decides to block or allow</td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Transaction stopped BEFORE money transfer</td>
+            </tr>
+            <tr style='background-color: #F9FAFB;'>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>4. Notification</strong></td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Customer and bank are notified of blocked transaction</td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Automated alerts sent via email/SMS</td>
+            </tr>
+            <tr>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>5. Learning</strong></td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>System learns from blocked fraud patterns</td>
+                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Model improves detection accuracy over time</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class='card'>
+        <h3>🎯 Best Practices for Fraud Prevention</h3>
+        <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;'>
+            <div style='padding: 15px; background: #FEF2F2; border-left: 4px solid #DC2626; border-radius: 5px;'>
+                <h4 style='color: #DC2626; margin: 0 0 10px 0;'>🚨 High Risk Actions</h4>
+                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
+                    <li>Immediately block transaction</li>
+                    <li>Freeze account temporarily</li>
+                    <li>Notify fraud investigation team</li>
+                    <li>Request additional verification</li>
+                </ul>
+            </div>
+            <div style='padding: 15px; background: #FFFBEB; border-left: 4px solid #F59E0B; border-radius: 5px;'>
+                <h4 style='color: #F59E0B; margin: 0 0 10px 0;'>⚠️ Medium Risk Actions</h4>
+                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
+                    <li>Hold transaction for review</li>
+                    <li>Request customer confirmation</li>
+                    <li>Check against fraud database</li>
+                    <li>Apply additional authentication</li>
+                </ul>
+            </div>
+            <div style='padding: 15px; background: #F0FDF4; border-left: 4px solid #10B981; border-radius: 5px;'>
+                <h4 style='color: #10B981; margin: 0 0 10px 0;'>✅ Low Risk Actions</h4>
+                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
+                    <li>Process transaction normally</li>
+                    <li>Log transaction for monitoring</li>
+                    <li>Update customer profile</li>
+                    <li>Continue pattern analysis</li>
+                </ul>
+            </div>
+            <div style='padding: 15px; background: #EEF2FF; border-left: 4px solid #4F46E5; border-radius: 5px;'>
+                <h4 style='color: #4F46E5; margin: 0 0 10px 0;'>📊 Analytics Actions</h4>
+                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
+                    <li>Review fraud trends weekly</li>
+                    <li>Update ML model with new data</li>
+                    <li>Generate performance reports</li>
+                    <li>Train staff on new patterns</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class='card'>
+        <h3>💡 Key Points to Remember</h3>
+        <div style='background: #EEF2FF; padding: 20px; border-radius: 8px; margin-top: 15px;'>
+            <ul style='font-size: 16px; line-height: 2.0; margin: 0;'>
+                <li>✅ <strong>Prevention is BEFORE transaction</strong> - not after money is transferred</li>
+                <li>✅ <strong>ML learns from previous fraud</strong> - patterns help detect new fraud attempts</li>
+                <li>✅ <strong>Always document decisions</strong> - maintain audit trail for compliance</li>
+                <li>✅ <strong>Balance security and user experience</strong> - don't block legitimate transactions</li>
+                <li>✅ <strong>Continuous monitoring</strong> - fraud patterns evolve, system must adapt</li>
+            </ul>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # --------------------------------------------------
 # ABOUT
