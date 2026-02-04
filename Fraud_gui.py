@@ -10,6 +10,9 @@ import io
 import base64
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
+import json
+import os
+import hashlib
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -21,64 +24,328 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-def set_bg(path):
-    try:
-        with open(path, "rb") as f:
-            encoded = base64.b64encode(f.read()).decode()
-        st.markdown(f"""
-        <style>
-        .stApp {{
-            background:linear-gradient(rgba(255,255,255,.95),rgba(245,245,250,.98)),
-            url(data:image/png;base64,{encoded});
-            background-size:cover;
-        }}
-        </style>
-        """, unsafe_allow_html=True)
-    except FileNotFoundError:
-        pass  # Skip background image if not found
+# --------------------------------------------------
+# USER MANAGEMENT FUNCTIONS
+# --------------------------------------------------
+USERS_FILE = "users.json"
+
+def load_users():
+    """Load registered users from JSON file"""
+    if os.path.exists(USERS_FILE):
+        with open(USERS_FILE, 'r') as f:
+            return json.load(f)
+    return {}
+
+def save_users(users):
+    """Save users to JSON file"""
+    with open(USERS_FILE, 'w') as f:
+        json.dump(users, f, indent=4)
+
+def hash_password(password):
+    """Hash password using SHA-256"""
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def register_user(username, password, email):
+    """Register a new user"""
+    users = load_users()
+    if username in users:
+        return False, "Username already exists"
+    users[username] = {
+        "password": hash_password(password),
+        "email": email
+    }
+    save_users(users)
+    return True, "Registration successful!"
+
+def verify_user(username, password):
+    """Verify user credentials"""
+    users = load_users()
+    if username in users:
+        if users[username]["password"] == hash_password(password):
+            return True
+    return False
 
 # --------------------------------------------------
 # SESSION STATE
 # --------------------------------------------------
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
+if "page" not in st.session_state:
+    st.session_state.page = "login"
 
 # --------------------------------------------------
-# LOGIN PAGE WITH BACKGROUND IMAGE
+# LOGIN AND REGISTRATION PAGE - ENHANCED UI
 # --------------------------------------------------
 if not st.session_state.logged_in:
-    try:
-        set_bg(r"Bg_imgjpeg.jpeg")
-    except:
-        pass  # Skip if image not available
-
+    # Premium styling for auth pages with animations
     st.markdown("""
-    <div class="login-card">
-        <h2 style="text-align:center;">🕵️ Fraud Detection Login</h2>
+    <style>
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .stApp {
+        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+    }
+    
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 50px;
+        border-radius: 25px;
+        box-shadow: 0 25px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.3);
+        max-width: 480px;
+        margin: 30px auto;
+        animation: fadeIn 0.8s ease-out;
+        border: 2px solid rgba(255,255,255,0.5);
+    }
+    
+    .logo-container {
+        text-align: center;
+        padding: 40px 20px 30px;
+        animation: fadeIn 1s ease-out;
+    }
+    
+    .logo-icon {
+        font-size: 80px;
+        animation: float 3s ease-in-out infinite;
+        display: inline-block;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    }
+    
+    .stTextInput > div > div > input {
+        border-radius: 12px;
+        border: 2px solid #e0e7ff !important;
+        padding: 14px 16px !important;
+        font-size: 15px !important;
+        transition: all 0.3s ease;
+        background: rgba(255,255,255,0.9) !important;
+        color: #1a202c !important;
+    }
+    
+    .stTextInput > div > div > input:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        transform: translateY(-2px);
+    }
+    
+    .stTextInput > div > div > input::placeholder {
+        color: #9ca3af !important;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        border-radius: 12px;
+        padding: 16px;
+        font-weight: 700;
+        font-size: 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+    }
+    
+    .toggle-btn {
+        transition: all 0.3s ease;
+    }
+    
+    h1, h2, h3 {
+        color: #1a202c !important;
+        font-weight: 800 !important;
+    }
+    
+    label {
+        color: #4a5568 !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .feature-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 8px 16px;
+        border-radius: 20px;
+        margin: 5px;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+    }
+    
+    .divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        margin: 25px 0;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Animated logo and branding
+    st.markdown("""
+    <div class="logo-container">
+        <div class="logo-icon">🛡️</div>
+        <h1 style="color: white !important; font-size: 56px; margin: 15px 0 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 900;">FraudGuard</h1>
+        <p style="color: #E0E7FF; font-size: 20px; margin: 10px 0 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.2);">AI-Powered Fraud Detection Platform</p>
+        <div style="margin-top: 20px;">
+            <span class="feature-badge">🤖 Machine Learning</span>
+            <span class="feature-badge">⚡ Real-Time</span>
+            <span class="feature-badge">🔒 Secure</span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    # Toggle between login and register with enhanced design
+    col1, col2, col3 = st.columns([1, 3, 1])
+    with col2:
+        tab_col1, tab_col2 = st.columns(2)
+        with tab_col1:
+            login_active = "primary" if st.session_state.page == "login" else "secondary"
+            if st.button("🔐 Sign In", width="stretch", type=login_active, key="tab_login"):
+                st.session_state.page = "login"
+                st.rerun()
+        with tab_col2:
+            register_active = "primary" if st.session_state.page == "register" else "secondary"
+            if st.button("📝 Register", width="stretch", type=register_active, key="tab_register"):
+                st.session_state.page = "register"
+                st.rerun()
 
-    if st.button("Login"):
-        if username == "admin" and password == "admin123":
-            st.session_state.logged_in = True
-            st.success("Login Successful")
-            st.rerun()
-        else:
-            st.error("Invalid Credentials")
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Login Page with enhanced UI
+    if st.session_state.page == "login":
+        col1, col2, col3 = st.columns([1, 3, 1])
+        with col2:
+            st.markdown('<div class="auth-card">', unsafe_allow_html=True)
+            st.markdown("""
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 style='color: #667eea; font-size: 32px; margin-bottom: 10px;'>Welcome Back! 👋</h2>
+                    <p style='color: #718096; font-size: 15px;'>Sign in to continue to your account</p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            username = st.text_input("👤 USERNAME", key="login_username", placeholder="Enter your username")
+            password = st.text_input("🔒 PASSWORD", type="password", key="login_password", placeholder="Enter your password")
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+            
+            if st.button("🚀 LOGIN", width="stretch", key="login_btn"):
+                if username and password:
+                    if verify_user(username, password):
+                        st.session_state.logged_in = True
+                        st.session_state.username = username
+                        st.success(f"✅ Welcome back, {username}!")
+                        st.balloons()
+                        st.rerun()
+                    else:
+                        st.error("❌ Invalid username or password. Please try again.")
+                else:
+                    st.warning("⚠️ Please enter both username and password")
+            
+            st.markdown("""
+                <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                    <p style='color: #718096; font-size: 14px;'>Don't have an account? Switch to <strong>Sign Up</strong> tab above</p>
+                </div>
+            """, unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    # Registration Page with enhanced UI
+    elif st.session_state.page == "register":
+        col1, col2, col3 = st.columns([1, 3, 1])
+        with col2:
+            st.markdown('<div class="auth-card">', unsafe_allow_html=True)
+            st.markdown("""
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 style='color: #764ba2; font-size: 32px; margin-bottom: 10px;'>Create Account 🎉</h2>
+                    <p style='color: #718096; font-size: 15px;'>Join FraudGuard to protect your transactions</p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            new_username = st.text_input("👤 USERNAME", key="reg_username", placeholder="Choose a unique username")
+            new_email = st.text_input("📧 EMAIL ADDRESS", key="reg_email", placeholder="your.email@example.com")
+            
+            col_pass1, col_pass2 = st.columns(2)
+            with col_pass1:
+                new_password = st.text_input("🔒 PASSWORD", type="password", key="reg_password", placeholder="Min 6 characters")
+            with col_pass2:
+                confirm_password = st.text_input("🔒 CONFIRM", type="password", key="reg_confirm", placeholder="Re-enter password")
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+            
+            if st.button("✨ CREATE ACCOUNT", width="stretch", key="register_btn"):
+                if new_username and new_email and new_password and confirm_password:
+                    if len(new_password) < 6:
+                        st.error("❌ Password must be at least 6 characters long")
+                    elif new_password != confirm_password:
+                        st.error("❌ Passwords do not match. Please check and try again.")
+                    else:
+                        success, message = register_user(new_username, new_password, new_email)
+                        if success:
+                            st.success(f"✅ {message} Your account is ready!")
+                            st.balloons()
+                            st.info("🔄 Redirecting to login page...")
+                            st.session_state.page = "login"
+                            st.rerun()
+                        else:
+                            st.error(f"❌ {message}. Please try a different username.")
+                else:
+                    st.warning("⚠️ Please fill in all fields to continue")
+            
+            st.markdown("""
+                <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                    <p style='color: #718096; font-size: 14px;'>Already have an account? Switch to <strong>Sign In</strong> tab above</p>
+                </div>
+            """, unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 
 # --------------------------------------------------
-# GLOBAL THEME - ENHANCED FOR CLARITY
+# GLOBAL THEME - PREMIUM UI/UX DESIGN
 # --------------------------------------------------
 st.markdown("""
 <style>
-/* Light white background theme */
-.stApp {
-    background: linear-gradient(135deg, #ffffff 0%, #f5f5fa 100%) !important;
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
 }
 
 /* Fix blurriness and improve rendering */
@@ -88,68 +355,272 @@ st.markdown("""
     text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 {
-    color: #1F2937 !important;
+/* Premium gradient background */
+.stApp {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-attachment: fixed;
 }
 
-p, label {
-    color: #374151 !important;
+/* Dark text on light background for visibility */
+h1, h2, h3, h4, h5, h6 {
+    color: #1a202c !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
 }
 
-.stMarkdown, .stTextInput label, .stSelectbox label {
-    font-size: 16px;
-    font-weight: 500;
-    color: #1F2937 !important;
+p, span, div, li {
+    color: #2d3748 !important;
 }
 
+label {
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stMarkdown, .stTextInput label, .stSelectbox label, .stNumberInput label {
+    color: #2d3748 !important;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Premium card styling with glassmorphism */
 .card {
-    line-height: 1.7;
-    padding: 20px;
-    border-radius: 10px;
+    line-height: 1.9;
+    padding: 30px;
+    border-radius: 20px;
     background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin: 10px 0;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.3);
+    margin: 20px 0;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideInDown 0.6s ease-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.card p, .card li, .card h3, .card h4 {
+    color: #2d3748 !important;
+}
+
+.card ul, .card ol {
+    padding-left: 25px;
 }
 
 /* Enhanced button styling */
 button {
-    font-weight: 600 !important;
-    border-radius: 8px !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.5px !important;
 }
 
-/* SVM Model Badge */
+.stButton > button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6) !important;
+}
+
+/* SVM Model Badge with glow effect */
 .svm-badge {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    color: white !important;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: 800;
+    text-align: center;
+    margin: 20px auto;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5), 0 0 30px rgba(118, 75, 162, 0.3);
+    font-size: 18px;
+    animation: pulse 2s ease-in-out infinite;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.svm-badge * {
+    color: white !important;
+}
+
+/* Premium header styling */
+.main-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 45px;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+    animation: slideInDown 0.8s ease-out;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.main-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0%, 100% { transform: rotate(45deg) translateY(-100%); }
+    50% { transform: rotate(45deg) translateY(100%); }
+}
+
+.main-header h1, .main-header h2, .main-header p {
+    color: white !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* Input fields with premium feel */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stSelectbox > div > div {
+    background-color: white !important;
+    color: #2d3748 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+    font-size: 15px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 4px 12px rgba(0,0,0,0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Metric styling with modern cards */
+.stMetric {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stMetric:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.stMetric label {
+    color: #4a5568 !important;
+    font-weight: 700 !important;
+}
+
+.stMetric [data-testid="stMetricValue"] {
+    color: #667eea !important;
+    font-weight: 900 !important;
+}
+
+/* Navigation radio buttons premium style */
+.stRadio > div {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.stRadio > label {
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+}
+
+/* Alert messages with modern design */
+.stSuccess, .stWarning, .stError, .stInfo {
+    padding: 18px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-left: 5px solid;
+}
+
+.stSuccess {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border-left-color: #28a745;
+}
+
+.stError {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+    border-left-color: #dc3545;
+}
+
+.stWarning {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+    border-left-color: #ffc107;
+}
+
+.stInfo {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    border-left-color: #17a2b8;
+}
+
+/* User info badge */
+.user-badge {
+    background: white;
     padding: 10px 20px;
     border-radius: 25px;
-    font-weight: bold;
-    text-align: center;
-    margin: 10px auto;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-weight: 700;
+    color: #667eea !important;
+    border: 2px solid rgba(102, 126, 234, 0.3);
 }
-/* Improved header styling for light theme */
-.main-header {
-    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
-    margin-bottom: 30px;
-    border: 1px solid #E5E7EB;
+
+/* Navigation section styling */
+.nav-container {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    margin: 25px 0;
+    border: 2px solid rgba(102, 126, 234, 0.2);
 }
 </style>
 """, unsafe_allow_html=True)
 
 
 # --------------------------------------------------
-# ENHANCED HEADER
+# ENHANCED HEADER WITH USER INFO
 # --------------------------------------------------
+# User info and logout button
+col1, col2, col3 = st.columns([2, 6, 2])
+with col1:
+    if "username" in st.session_state:
+        st.markdown(f"<p style='color: #667eea; font-weight: bold;'>👤 {st.session_state.username}</p>", unsafe_allow_html=True)
+with col3:
+    if st.button("🚪 Logout", width="stretch", type="secondary"):
+        st.session_state.logged_in = False
+        st.session_state.username = None
+        st.success("Logged out successfully!")
+        st.rerun()
+
 st.markdown("""
 <div class="main-header">
-    <h1 style="text-align:center; color: white; margin: 0;">🕵️ FRAUD DETECTION</h1>
+    <h1 style="text-align:center; color: white; margin: 0;">🛡️ FRAUDGUARD</h1>
     <h2 style="text-align:center; color: #E0E7FF; margin: 10px 0; font-size: 24px;">Online Payment Fraud Detection System</h2>
-    <p style="text-align:center; color: #C7D2FE; font-size: 16px;">🤖 AI-Powered ML Dashboard | 🎯 Real-Time Risk Analysis | ⚡ Detect Fraud BEFORE Transaction</p>
+    <p style="text-align:center; color: #C7D2FE; font-size: 16px;">🤖 AI-Powered Machine Learning Dashboard | 🎯 Real-Time Risk Scoring | ⚡ Pre-Transaction Fraud Prevention</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -159,15 +630,11 @@ st.markdown("""
 st.markdown("<h3 style='text-align: center; color: #4F46E5;'>📍 Navigation Dashboard</h3>", unsafe_allow_html=True)
 nav = st.radio(
     "",
-    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "🚫 Fraud Prevention", "📄 Report", "ℹ️ About"],
+    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "� Report", "ℹ️ About"],
     horizontal=True,
     key="navigation"
 )
 st.markdown("<hr style='margin: 20px 0;'>", unsafe_allow_html=True)
-try:
-    set_bg(r"Online-Fraud.jpeg")
-except:
-    pass  # Skip if image not available
 
 
 # --------------------------------------------------
