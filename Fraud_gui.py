@@ -509,6 +509,87 @@ button {
     transform: translateY(-2px) !important;
 }
 
+/* Fix selectbox dropdown visibility - FORCE BLACK TEXT */
+.stSelectbox [data-baseweb="select"] {
+    background-color: white !important;
+}
+
+.stSelectbox [data-baseweb="select"] > div {
+    background-color: white !important;
+    color: #000000 !important;
+}
+
+/* Fix selected value text color in selectbox - CRITICAL */
+.stSelectbox [data-baseweb="select"] [role="button"] {
+    color: #000000 !important;
+    background-color: white !important;
+}
+
+.stSelectbox [data-baseweb="select"] [role="button"] > div {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] span {
+    color: #000000 !important;
+}
+
+.stSelectbox div[data-baseweb="select"] div {
+    color: #000000 !important;
+}
+
+.stSelectbox [id*="baseweb-select"] {
+    color: #000000 !important;
+}
+
+/* Target the value container specifically - FORCE BLACK */
+.stSelectbox [data-baseweb="select"] [class*="ValueContainer"] {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] [class*="ValueContainer"] * {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] [class*="SingleValue"] {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] [class*="Input"] {
+    color: #000000 !important;
+}
+
+/* Target all nested elements in selectbox */
+.stSelectbox * {
+    color: #000000 !important;
+}
+
+.stSelectbox label {
+    color: #2d3748 !important;
+}
+
+.stSelectbox [data-baseweb="popover"] {
+    background-color: white !important;
+}
+
+[role="listbox"] {
+    background-color: white !important;
+}
+
+[role="option"] {
+    background-color: white !important;
+    color: #000000 !important;
+}
+
+[role="option"]:hover {
+    background-color: #f7fafc !important;
+    color: #667eea !important;
+}
+
+.stSelectbox option {
+    background-color: white !important;
+    color: #2d3748 !important;
+}
+
 /* Metric styling with modern cards */
 .stMetric {
     background: white;
@@ -630,7 +711,7 @@ st.markdown("""
 st.markdown("<h3 style='text-align: center; color: #4F46E5;'>📍 Navigation Dashboard</h3>", unsafe_allow_html=True)
 nav = st.radio(
     "",
-    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "� Report", "ℹ️ About"],
+    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "🚫 Fraud Prevention", "📄 Report", "ℹ️ About"],
     horizontal=True,
     key="navigation"
 )
