@@ -208,7 +208,7 @@ if not st.session_state.logged_in:
     st.markdown("""
     <div class="logo-container">
         <div class="logo-icon">🛡️</div>
-        <h1 style="color: white !important; font-size: 56px; margin: 15px 0 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 900;">FraudGuard</h1>
+        <div style="color: white !important; font-size: 56px; margin: 15px 0 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 900;">FraudGuard</div>
         <p style="color: #E0E7FF; font-size: 20px; margin: 10px 0 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.2);">AI-Powered Fraud Detection Platform</p>
         <div style="margin-top: 20px;">
             <span class="feature-badge">🤖 Machine Learning</span>
@@ -242,7 +242,7 @@ if not st.session_state.logged_in:
             st.markdown('<div class="auth-card">', unsafe_allow_html=True)
             st.markdown("""
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <h2 style='color: #667eea; font-size: 32px; margin-bottom: 10px;'>Welcome Back! 👋</h2>
+                    <div style='color: #667eea; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Welcome Back! 👋</div>
                     <p style='color: #718096; font-size: 15px;'>Sign in to continue to your account</p>
                 </div>
             """, unsafe_allow_html=True)
@@ -279,7 +279,7 @@ if not st.session_state.logged_in:
             st.markdown('<div class="auth-card">', unsafe_allow_html=True)
             st.markdown("""
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <h2 style='color: #764ba2; font-size: 32px; margin-bottom: 10px;'>Create Account 🎉</h2>
+                    <div style='color: #764ba2; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Create Account 🎉</div>
                     <p style='color: #718096; font-size: 15px;'>Join FraudGuard to protect your transactions</p>
                 </div>
             """, unsafe_allow_html=True)
@@ -373,7 +373,7 @@ p, span, div, li {
 }
 
 label {
-    color: #2d3748 !important;
+    color: #000000 !important;
     font-weight: 700 !important;
     font-size: 14px !important;
     text-transform: uppercase;
@@ -381,9 +381,18 @@ label {
 }
 
 .stMarkdown, .stTextInput label, .stSelectbox label, .stNumberInput label {
-    color: #2d3748 !important;
+    color: #000000 !important;
     font-size: 14px;
     font-weight: 700;
+}
+
+/* Force black text for all form labels */
+[data-testid="stWidgetLabel"] {
+    color: #000000 !important;
+}
+
+[data-testid="stWidgetLabel"] p {
+    color: #000000 !important;
 }
 
 /* Premium card styling with glassmorphism */
@@ -509,6 +518,32 @@ button {
     transform: translateY(-2px) !important;
 }
 
+/* Ensure number input labels are black */
+.stNumberInput label {
+    color: #000000 !important;
+}
+
+.stNumberInput [data-testid="stWidgetLabel"] {
+    color: #000000 !important;
+}
+
+.stNumberInput [data-testid="stWidgetLabel"] p {
+    color: #000000 !important;
+}
+
+/* Ensure text input labels are black */
+.stTextInput label {
+    color: #000000 !important;
+}
+
+.stTextInput [data-testid="stWidgetLabel"] {
+    color: #000000 !important;
+}
+
+.stTextInput [data-testid="stWidgetLabel"] p {
+    color: #000000 !important;
+}
+
 /* Fix selectbox dropdown visibility - FORCE BLACK TEXT */
 .stSelectbox [data-baseweb="select"] {
     background-color: white !important;
@@ -564,9 +599,19 @@ button {
 }
 
 .stSelectbox label {
-    color: #2d3748 !important;
+    color: #000000 !important;
 }
 
+/* Fix the actual selected text display */
+.stSelectbox [data-baseweb="select"] [class*="singleValue"] {
+    color: #000000 !important;
+}
+
+.stSelectbox input {
+    color: #000000 !important;
+}
+
+/* Dropdown menu items */
 .stSelectbox [data-baseweb="popover"] {
     background-color: white !important;
 }
@@ -699,8 +744,8 @@ with col3:
 
 st.markdown("""
 <div class="main-header">
-    <h1 style="text-align:center; color: white; margin: 0;">🛡️ FRAUDGUARD</h1>
-    <h2 style="text-align:center; color: #E0E7FF; margin: 10px 0; font-size: 24px;">Online Payment Fraud Detection System</h2>
+    <div style="text-align:center; color: white; margin: 0; font-size: 2.5em; font-weight: bold;">🛡️ FRAUDGUARD</div>
+    <div style="text-align:center; color: #E0E7FF; margin: 10px 0; font-size: 24px; font-weight: 600;">Online Payment Fraud Detection System</div>
     <p style="text-align:center; color: #C7D2FE; font-size: 16px;">🤖 AI-Powered Machine Learning Dashboard | 🎯 Real-Time Risk Scoring | ⚡ Pre-Transaction Fraud Prevention</p>
 </div>
 """, unsafe_allow_html=True)
@@ -708,7 +753,7 @@ st.markdown("""
 # --------------------------------------------------
 # NAVIGATION - IMPROVED CONNECTIVITY
 # --------------------------------------------------
-st.markdown("<h3 style='text-align: center; color: #4F46E5;'>📍 Navigation Dashboard</h3>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; color: #4F46E5; font-size: 1.17em; font-weight: bold;'>📍 Navigation Dashboard</div>", unsafe_allow_html=True)
 nav = st.radio(
     "",
     ["🏠 Home", "🔍 Prediction", "📊 Visualization", "🚫 Fraud Prevention", "📄 Report", "ℹ️ About"],
@@ -750,7 +795,7 @@ model.fit(X_train, y_train)
 if nav == "🏠 Home":
     st.markdown("""
     <div class="card">
-    <h2>🚀 Welcome to Fraud Detection - Enterprise-Grade Fraud Detection System</h2>
+    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">🚀 Welcome to Fraud Detection - Enterprise-Grade Fraud Detection System</div>
     <p style="font-size: 17px; line-height: 1.9;">
     <strong>Fraud Detection</strong> is an advanced AI-powered fraud detection platform that provides <strong>real-time</strong> 
     protection for online payment transactions. Our system uses state-of-the-art machine learning algorithms to 
@@ -760,7 +805,7 @@ if nav == "🏠 Home":
     </div>
     
     <div class="card">
-    <h3>🎯 Key Features</h3>
+    <div style="font-size: 1.17em; font-weight: bold; margin-bottom: 10px;">🎯 Key Features</div>
     <ul style="font-size: 16px; line-height: 1.8;">
         <li><strong>⚡ Pre-Transaction Detection:</strong> Identifies potential fraud BEFORE money is transferred</li>
         <li><strong>🤖 Machine Learning Powered:</strong> Uses Gradient Boosting algorithm with 95%+ accuracy</li>
@@ -772,7 +817,7 @@ if nav == "🏠 Home":
     </div>
     
     <div class="card">
-    <h3>💡 How It Works</h3>
+    <div style="font-size: 1.17em; font-weight: bold; margin-bottom: 10px;">💡 How It Works</div>
     <ol style="font-size: 16px; line-height: 1.8;">
         <li><strong>Data Input:</strong> Enter transaction details including amount, type, and account information</li>
         <li><strong>AI Analysis:</strong> Machine learning model analyzes patterns and anomalies</li>
@@ -783,7 +828,7 @@ if nav == "🏠 Home":
     </div>
     
     <div class="card">
-    <h3>🛡️ Why Fraud Detection?</h3>
+    <div style="font-size: 1.17em; font-weight: bold; margin-bottom: 10px;">🛡️ Why Fraud Detection?</div>
     <p style="font-size: 16px; line-height: 1.8;">
     Online payment fraud costs businesses billions annually. Traditional rule-based systems can't keep up with 
     sophisticated fraud patterns. Fraud Detection uses <strong>adaptive machine learning</strong> that continuously learns 
@@ -803,7 +848,7 @@ if nav == "🏠 Home":
 # --------------------------------------------------
 elif nav == "📊 Visualization":
 
-    st.markdown("<div class='card'><h2>📊 Fraud Analytics Dashboard</h2></div>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><div style='font-size: 1.5em; font-weight: bold;'>📊 Fraud Analytics Dashboard</div></div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
@@ -879,17 +924,10 @@ elif nav == "🔍 Prediction":
 
     st.markdown("""
     <div class='card'>
-        <h3>�️ Pre-Transaction Fraud Risk Analysis</h3>
+        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>�️ Pre-Transaction Fraud Risk Analysis</div>
         <p style='color: #DC2626; font-weight: bold;'>⚠️ DETECT FRAUD BEFORE PAYMENT - NOT AFTER!</p>
         <p style='color: #059669; font-weight: bold;'>✅ Analyze fraud risk BEFORE processing the transaction</p>
         <p>Enter transaction details below to get real-time fraud prediction on previous transaction patterns</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Display SVM Model Badge
-    st.markdown("""
-    <div class="svm-badge">
-        🤖 Powered by Gradient Boosting Machine Learning Model
     </div>
     """, unsafe_allow_html=True)
     
@@ -938,7 +976,7 @@ elif nav == "🔍 Prediction":
             st.error(f"🔴 {level} - FRAUD PROBABILITY: {prob:.2f}%")
             st.markdown("""
             <div style='background: #FEE2E2; padding: 20px; border-radius: 10px; border-left: 5px solid #DC2626;'>
-                <h4 style='color: #DC2626; margin: 0;'>⛔ PRE-TRANSACTION ALERT: BLOCK THIS TRANSACTION</h4>
+                <div style='color: #DC2626; margin: 0; font-weight: bold;'>⛔ PRE-TRANSACTION ALERT: BLOCK THIS TRANSACTION</div>
                 <p style='color: #7F1D1D; margin-top: 10px;'>This transaction has been flagged as HIGH RISK before processing. Do NOT proceed with this payment.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -952,7 +990,7 @@ elif nav == "🔍 Prediction":
             st.warning(f"🟡 {level} - FRAUD PROBABILITY: {prob:.2f}%")
             st.markdown("""
             <div style='background: #FEF3C7; padding: 20px; border-radius: 10px; border-left: 5px solid #F59E0B;'>
-                <h4 style='color: #D97706; margin: 0;'>⚠️ PRE-TRANSACTION WARNING: MANUAL REVIEW REQUIRED</h4>
+                <div style='color: #D97706; margin: 0; font-weight: bold;'>⚠️ PRE-TRANSACTION WARNING: MANUAL REVIEW REQUIRED</div>
                 <p style='color: #78350F; margin-top: 10px;'>This transaction shows suspicious patterns. Verify user identity before proceeding.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -966,7 +1004,7 @@ elif nav == "🔍 Prediction":
             st.success(f"🟢 {level} - FRAUD PROBABILITY: {prob:.2f}%")
             st.markdown("""
             <div style='background: #D1FAE5; padding: 20px; border-radius: 10px; border-left: 5px solid #10B981;'>
-                <h4 style='color: #065F46; margin: 0;'>✅ PRE-TRANSACTION CHECK: SAFE TO PROCEED</h4>
+                <div style='color: #065F46; margin: 0; font-weight: bold;'>✅ PRE-TRANSACTION CHECK: SAFE TO PROCEED</div>
                 <p style='color: #064E3B; margin-top: 10px;'>Transaction appears legitimate. You may proceed with processing.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -975,7 +1013,7 @@ elif nav == "🔍 Prediction":
         st.session_state.explanation = explanation
         
         # ---------------- VISUALIZATION FOR PREDICTION ----------------
-        st.markdown("<br><h4>📊 Prediction Visualization</h4>", unsafe_allow_html=True)
+        st.markdown("<br><div style='font-weight: bold; font-size: 1.1em;'>📊 Prediction Visualization</div>", unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         
@@ -1005,7 +1043,7 @@ elif nav == "🔍 Prediction":
             st.plotly_chart(fig_pie, use_container_width=True)
         
         # Feature Importance Visualization
-        st.markdown("<h4>🔍 Key Risk Factors</h4>", unsafe_allow_html=True)
+        st.markdown("<div style='font-weight: bold; font-size: 1.1em;'>🔍 Key Risk Factors</div>", unsafe_allow_html=True)
         st.info(explanation)
         
         # Navigation helper
@@ -1023,7 +1061,7 @@ elif nav == "🔍 Prediction":
 # --------------------------------------------------
 elif nav == "📄 Report":
 
-    st.markdown("<div class='card'><h2>📄 Fraud Detection Report</h2></div>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><div style='font-size: 1.5em; font-weight: bold;'>📄 Fraud Detection Report</div></div>", unsafe_allow_html=True)
 
     if "prediction_done" not in st.session_state:
         st.warning("⚠️ Please perform a prediction first to generate the report.")
@@ -1086,7 +1124,7 @@ elif nav == "📄 Report":
 elif nav == "🚫 Fraud Prevention":
     st.markdown("""
     <div class='card'>
-        <h2>🚫 Fraud Prevention & Blocking Guide</h2>
+        <div style='font-size: 1.5em; font-weight: bold; margin-bottom: 10px;'>🚫 Fraud Prevention & Blocking Guide</div>
         <p style='font-size: 17px; line-height: 1.9;'>
         This section explains how to <strong>block and prevent fraudulent transactions</strong> that have been detected 
         by our system, based on previous fraud patterns and ML predictions.
@@ -1094,7 +1132,7 @@ elif nav == "🚫 Fraud Prevention":
     </div>
     
     <div class='card'>
-        <h3>🛑 How to Block Previously Detected Fraud</h3>
+        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>🛑 How to Block Previously Detected Fraud</div>
         <p style='font-size: 16px; line-height: 1.8;'>
         When our system identifies a transaction as fraudulent (based on historical patterns), you should take the following steps:
         </p>
@@ -1108,7 +1146,7 @@ elif nav == "🚫 Fraud Prevention":
     </div>
     
     <div class='card'>
-        <h3>⚡ Real-Time Fraud Prevention Steps</h3>
+        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>⚡ Real-Time Fraud Prevention Steps</div>
         <table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
             <tr style='background-color: #F3F4F6;'>
                 <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>Step</th>
@@ -1144,10 +1182,10 @@ elif nav == "🚫 Fraud Prevention":
     </div>
     
     <div class='card'>
-        <h3>🎯 Best Practices for Fraud Prevention</h3>
+        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>🎯 Best Practices for Fraud Prevention</div>
         <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;'>
             <div style='padding: 15px; background: #FEF2F2; border-left: 4px solid #DC2626; border-radius: 5px;'>
-                <h4 style='color: #DC2626; margin: 0 0 10px 0;'>🚨 High Risk Actions</h4>
+                <div style='color: #DC2626; margin: 0 0 10px 0; font-weight: bold;'>🚨 High Risk Actions</div>
                 <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
                     <li>Immediately block transaction</li>
                     <li>Freeze account temporarily</li>
@@ -1156,7 +1194,7 @@ elif nav == "🚫 Fraud Prevention":
                 </ul>
             </div>
             <div style='padding: 15px; background: #FFFBEB; border-left: 4px solid #F59E0B; border-radius: 5px;'>
-                <h4 style='color: #F59E0B; margin: 0 0 10px 0;'>⚠️ Medium Risk Actions</h4>
+                <div style='color: #F59E0B; margin: 0 0 10px 0; font-weight: bold;'>⚠️ Medium Risk Actions</div>
                 <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
                     <li>Hold transaction for review</li>
                     <li>Request customer confirmation</li>
@@ -1165,7 +1203,7 @@ elif nav == "🚫 Fraud Prevention":
                 </ul>
             </div>
             <div style='padding: 15px; background: #F0FDF4; border-left: 4px solid #10B981; border-radius: 5px;'>
-                <h4 style='color: #10B981; margin: 0 0 10px 0;'>✅ Low Risk Actions</h4>
+                <div style='color: #10B981; margin: 0 0 10px 0; font-weight: bold;'>✅ Low Risk Actions</div>
                 <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
                     <li>Process transaction normally</li>
                     <li>Log transaction for monitoring</li>
@@ -1174,7 +1212,7 @@ elif nav == "🚫 Fraud Prevention":
                 </ul>
             </div>
             <div style='padding: 15px; background: #EEF2FF; border-left: 4px solid #4F46E5; border-radius: 5px;'>
-                <h4 style='color: #4F46E5; margin: 0 0 10px 0;'>📊 Analytics Actions</h4>
+                <div style='color: #4F46E5; margin: 0 0 10px 0; font-weight: bold;'>📊 Analytics Actions</div>
                 <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
                     <li>Review fraud trends weekly</li>
                     <li>Update ML model with new data</li>
@@ -1186,7 +1224,7 @@ elif nav == "🚫 Fraud Prevention":
     </div>
     
     <div class='card'>
-        <h3>💡 Key Points to Remember</h3>
+        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>💡 Key Points to Remember</div>
         <div style='background: #EEF2FF; padding: 20px; border-radius: 8px; margin-top: 15px;'>
             <ul style='font-size: 16px; line-height: 2.0; margin: 0;'>
                 <li>✅ <strong>Prevention is BEFORE transaction</strong> - not after money is transferred</li>
