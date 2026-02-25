@@ -97,9 +97,7 @@ if not st.session_state.logged_in:
     }
     
     .stApp {
-        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
+        background: white;
     }
     
     .auth-card {
@@ -138,8 +136,8 @@ if not st.session_state.logged_in:
     }
     
     .stTextInput > div > div > input:focus {
-        border-color: #667eea !important;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        border-color: #374151 !important;
+        box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1) !important;
         transform: translateY(-2px);
     }
     
@@ -153,18 +151,18 @@ if not st.session_state.logged_in:
         padding: 16px;
         font-weight: 700;
         font-size: 16px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #374151;
         color: white;
         border: none;
         transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         text-transform: uppercase;
         letter-spacing: 1px;
     }
     
     .stButton > button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
     
     .toggle-btn {
@@ -242,7 +240,7 @@ if not st.session_state.logged_in:
             st.markdown('<div class="auth-card">', unsafe_allow_html=True)
             st.markdown("""
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <div style='color: #667eea; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Welcome Back! 👋</div>
+                    <div style='color: #000000; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Welcome Back! 👋</div>
                     <p style='color: #718096; font-size: 15px;'>Sign in to continue to your account</p>
                 </div>
             """, unsafe_allow_html=True)
@@ -279,7 +277,7 @@ if not st.session_state.logged_in:
             st.markdown('<div class="auth-card">', unsafe_allow_html=True)
             st.markdown("""
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <div style='color: #764ba2; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Create Account 🎉</div>
+                    <div style='color: #000000; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Create Account 🎉</div>
                     <p style='color: #718096; font-size: 15px;'>Join FraudGuard to protect your transactions</p>
                 </div>
             """, unsafe_allow_html=True)
@@ -355,10 +353,9 @@ st.markdown("""
     text-rendering: optimizeLegibility;
 }
 
-/* Premium gradient background */
+/* White background */
 .stApp {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    background-attachment: fixed;
+    background: white;
 }
 
 /* Dark text on light background for visibility */
@@ -411,7 +408,7 @@ label {
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(229, 231, 235, 0.5);
 }
 
 .card p, .card li, .card h3, .card h4 {
@@ -431,30 +428,29 @@ button {
 }
 
 .stButton > button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: #374151 !important;
     color: white !important;
     border: none !important;
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stButton > button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6) !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* SVM Model Badge with glow effect */
+/* Model Badge */
 .svm-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #374151;
     color: white !important;
     padding: 15px 30px;
     border-radius: 30px;
     font-weight: 800;
     text-align: center;
     margin: 20px auto;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5), 0 0 30px rgba(118, 75, 162, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     font-size: 18px;
-    animation: pulse 2s ease-in-out infinite;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid #e5e7eb;
 }
 
 .svm-badge * {
@@ -463,15 +459,15 @@ button {
 
 /* Premium header styling */
 .main-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: white;
     padding: 45px;
     border-radius: 25px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 35px;
     position: relative;
     overflow: hidden;
     animation: slideInDown 0.8s ease-out;
-    border: 3px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid #e5e7eb;
 }
 
 .main-header::before {
@@ -513,8 +509,8 @@ button {
 
 .stTextInput > div > div > input:focus,
 .stNumberInput > div > div > input:focus {
-    border-color: #667eea !important;
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 4px 12px rgba(0,0,0,0.1) !important;
+    border-color: #374151 !important;
+    box-shadow: 0 0 0 4px rgba(55, 65, 81, 0.15), 0 4px 12px rgba(0,0,0,0.1) !important;
     transform: translateY(-2px) !important;
 }
 
@@ -544,9 +540,14 @@ button {
     color: #000000 !important;
 }
 
-/* Fix selectbox dropdown visibility - FORCE BLACK TEXT */
+/* Fix selectbox dropdown visibility - FORCE BLACK TEXT - COMPREHENSIVE */
+.stSelectbox {
+    color: #000000 !important;
+}
+
 .stSelectbox [data-baseweb="select"] {
     background-color: white !important;
+    color: #000000 !important;
 }
 
 .stSelectbox [data-baseweb="select"] > div {
@@ -561,6 +562,10 @@ button {
 }
 
 .stSelectbox [data-baseweb="select"] [role="button"] > div {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] [role="button"] div {
     color: #000000 !important;
 }
 
@@ -602,12 +607,62 @@ button {
     color: #000000 !important;
 }
 
-/* Fix the actual selected text display */
+/* Override any inline styles that might be white */
+.stSelectbox div[data-baseweb="select"] > div > div {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] input {
+    color: #000000 !important;
+}
+
+/* Force black text on the actual displayed value - ALL VARIATIONS */
+.stSelectbox [class*="css"] {
+    color: #000000 !important;
+}
+
+.stSelectbox [class*="st-"] {
+    color: #000000 !important;
+}
+
+/* Ensure select element text is black */
+select, select option {
+    color: #000000 !important;
+    background-color: white !important;
+}
+
+/* Fix the actual selected text display - ALL CASE VARIATIONS */
 .stSelectbox [data-baseweb="select"] [class*="singleValue"] {
     color: #000000 !important;
 }
 
+.stSelectbox [data-baseweb="select"] [class*="SingleValue"] {
+    color: #000000 !important;
+}
+
+.stSelectbox [data-baseweb="select"] [class*="single-value"] {
+    color: #000000 !important;
+}
+
 .stSelectbox input {
+    color: #000000 !important;
+}
+
+/* Target all divs within selectbox control */
+.stSelectbox [class*="control"] {
+    color: #000000 !important;
+}
+
+.stSelectbox [class*="control"] * {
+    color: #000000 !important;
+}
+
+/* Force on all baseui select components */
+[data-baseweb="select"] {
+    color: #000000 !important;
+}
+
+[data-baseweb="select"] * {
     color: #000000 !important;
 }
 
@@ -627,12 +682,43 @@ button {
 
 [role="option"]:hover {
     background-color: #f7fafc !important;
-    color: #667eea !important;
+    color: #000000 !important;
 }
 
 .stSelectbox option {
     background-color: white !important;
-    color: #2d3748 !important;
+    color: #000000 !important;
+}
+
+/* MAXIMUM STRENGTH - Force black text in ALL selectbox scenarios */
+div[data-baseweb="select"] div {
+    color: #000000 !important;
+}
+
+div[data-baseweb="select"] span {
+    color: #000000 !important;
+}
+
+div[data-baseweb="select"] > div > div > div {
+    color: #000000 !important;
+}
+
+/* Target Streamlit's specific implementation */
+[data-testid="stSelectbox"] div {
+    color: #000000 !important;
+}
+
+[data-testid="stSelectbox"] span {
+    color: #000000 !important;
+}
+
+/* Ultra-specific for the displayed selected value */
+.stSelectbox > div > div > div > div {
+    color: #000000 !important;
+}
+
+.stSelectbox > div > div > div > div > div {
+    color: #000000 !important;
 }
 
 /* Metric styling with modern cards */
@@ -641,13 +727,13 @@ button {
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border: 2px solid rgba(102, 126, 234, 0.2);
+    border: 2px solid #e5e7eb;
     transition: all 0.3s ease;
 }
 
 .stMetric:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .stMetric label {
@@ -656,7 +742,7 @@ button {
 }
 
 .stMetric [data-testid="stMetricValue"] {
-    color: #667eea !important;
+    color: #000000 !important;
     font-weight: 900 !important;
 }
 
@@ -684,23 +770,23 @@ button {
 }
 
 .stSuccess {
-    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-    border-left-color: #28a745;
+    background: #D1FAE5;
+    border-left-color: #10B981;
 }
 
 .stError {
-    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-    border-left-color: #dc3545;
+    background: #FEE2E2;
+    border-left-color: #DC2626;
 }
 
 .stWarning {
-    background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
-    border-left-color: #ffc107;
+    background: #FEF3C7;
+    border-left-color: #F59E0B;
 }
 
 .stInfo {
-    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
-    border-left-color: #17a2b8;
+    background: #DBEAFE;
+    border-left-color: #3B82F6;
 }
 
 /* User info badge */
@@ -710,8 +796,8 @@ button {
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     font-weight: 700;
-    color: #667eea !important;
-    border: 2px solid rgba(102, 126, 234, 0.3);
+    color: #000000 !important;
+    border: 2px solid #e5e7eb;
 }
 
 /* Navigation section styling */
@@ -721,7 +807,7 @@ button {
     border-radius: 20px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     margin: 25px 0;
-    border: 2px solid rgba(102, 126, 234, 0.2);
+    border: 2px solid #e5e7eb;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -734,7 +820,7 @@ button {
 col1, col2, col3 = st.columns([2, 6, 2])
 with col1:
     if "username" in st.session_state:
-        st.markdown(f"<p style='color: #667eea; font-weight: bold;'>👤 {st.session_state.username}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='color: #000000; font-weight: bold;'>👤 {st.session_state.username}</p>", unsafe_allow_html=True)
 with col3:
     if st.button("🚪 Logout", width="stretch", type="secondary"):
         st.session_state.logged_in = False
@@ -744,19 +830,19 @@ with col3:
 
 st.markdown("""
 <div class="main-header">
-    <div style="text-align:center; color: white; margin: 0; font-size: 2.5em; font-weight: bold;">🛡️ FRAUDGUARD</div>
-    <div style="text-align:center; color: #E0E7FF; margin: 10px 0; font-size: 24px; font-weight: 600;">Online Payment Fraud Detection System</div>
-    <p style="text-align:center; color: #C7D2FE; font-size: 16px;">🤖 AI-Powered Machine Learning Dashboard | 🎯 Real-Time Risk Scoring | ⚡ Pre-Transaction Fraud Prevention</p>
+    <div style="text-align:center; color: #000000; margin: 0; font-size: 2.5em; font-weight: bold;">🛡️ FRAUDGUARD</div>
+    <div style="text-align:center; color: #000000; margin: 10px 0; font-size: 24px; font-weight: 600;">Online Payment Fraud Detection System</div>
+    <p style="text-align:center; color: #000000; font-size: 16px;">🤖 AI-Powered Machine Learning Dashboard | 🎯 Real-Time Risk Scoring | ⚡ Pre-Transaction Fraud Prevention</p>
 </div>
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
 # NAVIGATION - IMPROVED CONNECTIVITY
 # --------------------------------------------------
-st.markdown("<div style='text-align: center; color: #4F46E5; font-size: 1.17em; font-weight: bold;'>📍 Navigation Dashboard</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; color: #000000; font-size: 1.17em; font-weight: bold;'>📍 Navigation Dashboard</div>", unsafe_allow_html=True)
 nav = st.radio(
     "",
-    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "🚫 Fraud Prevention", "📄 Report", "ℹ️ About"],
+    ["🏠 Home", "🔍 Prediction", "📊 Visualization", "📄 Report", "ℹ️ About"],
     horizontal=True,
     key="navigation"
 )
@@ -779,7 +865,10 @@ for col in cat_cols:
     df[col] = le.fit_transform(df[col].astype(str))
     encoders[col] = le
 
+# Remove isFlaggedFraud if it exists in the dataframe
 X = df.drop(target_col, axis=1)
+if 'isFlaggedFraud' in X.columns:
+    X = X.drop('isFlaggedFraud', axis=1)
 y = df[target_col]
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -1119,128 +1208,9 @@ elif nav == "📄 Report":
 
 
 # --------------------------------------------------
-# FRAUD PREVENTION - HOW TO BLOCK DETECTED FRAUD
-# --------------------------------------------------
-elif nav == "🚫 Fraud Prevention":
-    st.markdown("""
-    <div class='card'>
-        <div style='font-size: 1.5em; font-weight: bold; margin-bottom: 10px;'>🚫 Fraud Prevention & Blocking Guide</div>
-        <p style='font-size: 17px; line-height: 1.9;'>
-        This section explains how to <strong>block and prevent fraudulent transactions</strong> that have been detected 
-        by our system, based on previous fraud patterns and ML predictions.
-        </p>
-    </div>
-    
-    <div class='card'>
-        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>🛑 How to Block Previously Detected Fraud</div>
-        <p style='font-size: 16px; line-height: 1.8;'>
-        When our system identifies a transaction as fraudulent (based on historical patterns), you should take the following steps:
-        </p>
-        <ol style='font-size: 16px; line-height: 1.8;'>
-            <li><strong>Review the Prediction:</strong> Check the fraud probability percentage and risk level in the 🔍 Prediction section</li>
-            <li><strong>High Risk (>70%):</strong> Immediately <span style='color: #DC2626; font-weight: bold;'>BLOCK</span> the transaction before processing</li>
-            <li><strong>Medium Risk (40-70%):</strong> Flag for <span style='color: #F59E0B; font-weight: bold;'>MANUAL REVIEW</span> by fraud team</li>
-            <li><strong>Low Risk (<40%):</strong> Allow transaction to proceed with <span style='color: #10B981; font-weight: bold;'>MONITORING</span></li>
-            <li><strong>Document the Decision:</strong> Generate a 📄 Report for audit trail and compliance</li>
-        </ol>
-    </div>
-    
-    <div class='card'>
-        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>⚡ Real-Time Fraud Prevention Steps</div>
-        <table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
-            <tr style='background-color: #F3F4F6;'>
-                <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>Step</th>
-                <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>Action</th>
-                <th style='border: 1px solid #E5E7EB; padding: 12px; text-align: left;'>System Response</th>
-            </tr>
-            <tr>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>1. Detection</strong></td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>ML model analyzes transaction before completion</td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Fraud probability calculated in milliseconds</td>
-            </tr>
-            <tr style='background-color: #F9FAFB;'>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>2. Risk Assessment</strong></td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>System assigns risk level (High/Medium/Low)</td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Visual alerts displayed with color coding</td>
-            </tr>
-            <tr>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>3. Block Decision</strong></td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Admin reviews and decides to block or allow</td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Transaction stopped BEFORE money transfer</td>
-            </tr>
-            <tr style='background-color: #F9FAFB;'>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>4. Notification</strong></td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Customer and bank are notified of blocked transaction</td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Automated alerts sent via email/SMS</td>
-            </tr>
-            <tr>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'><strong>5. Learning</strong></td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>System learns from blocked fraud patterns</td>
-                <td style='border: 1px solid #E5E7EB; padding: 10px;'>Model improves detection accuracy over time</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class='card'>
-        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>🎯 Best Practices for Fraud Prevention</div>
-        <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;'>
-            <div style='padding: 15px; background: #FEF2F2; border-left: 4px solid #DC2626; border-radius: 5px;'>
-                <div style='color: #DC2626; margin: 0 0 10px 0; font-weight: bold;'>🚨 High Risk Actions</div>
-                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
-                    <li>Immediately block transaction</li>
-                    <li>Freeze account temporarily</li>
-                    <li>Notify fraud investigation team</li>
-                    <li>Request additional verification</li>
-                </ul>
-            </div>
-            <div style='padding: 15px; background: #FFFBEB; border-left: 4px solid #F59E0B; border-radius: 5px;'>
-                <div style='color: #F59E0B; margin: 0 0 10px 0; font-weight: bold;'>⚠️ Medium Risk Actions</div>
-                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
-                    <li>Hold transaction for review</li>
-                    <li>Request customer confirmation</li>
-                    <li>Check against fraud database</li>
-                    <li>Apply additional authentication</li>
-                </ul>
-            </div>
-            <div style='padding: 15px; background: #F0FDF4; border-left: 4px solid #10B981; border-radius: 5px;'>
-                <div style='color: #10B981; margin: 0 0 10px 0; font-weight: bold;'>✅ Low Risk Actions</div>
-                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
-                    <li>Process transaction normally</li>
-                    <li>Log transaction for monitoring</li>
-                    <li>Update customer profile</li>
-                    <li>Continue pattern analysis</li>
-                </ul>
-            </div>
-            <div style='padding: 15px; background: #EEF2FF; border-left: 4px solid #4F46E5; border-radius: 5px;'>
-                <div style='color: #4F46E5; margin: 0 0 10px 0; font-weight: bold;'>📊 Analytics Actions</div>
-                <ul style='font-size: 14px; line-height: 1.6; margin: 0;'>
-                    <li>Review fraud trends weekly</li>
-                    <li>Update ML model with new data</li>
-                    <li>Generate performance reports</li>
-                    <li>Train staff on new patterns</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <div class='card'>
-        <div style='font-size: 1.17em; font-weight: bold; margin-bottom: 10px;'>💡 Key Points to Remember</div>
-        <div style='background: #EEF2FF; padding: 20px; border-radius: 8px; margin-top: 15px;'>
-            <ul style='font-size: 16px; line-height: 2.0; margin: 0;'>
-                <li>✅ <strong>Prevention is BEFORE transaction</strong> - not after money is transferred</li>
-                <li>✅ <strong>ML learns from previous fraud</strong> - patterns help detect new fraud attempts</li>
-                <li>✅ <strong>Always document decisions</strong> - maintain audit trail for compliance</li>
-                <li>✅ <strong>Balance security and user experience</strong> - don't block legitimate transactions</li>
-                <li>✅ <strong>Continuous monitoring</strong> - fraud patterns evolve, system must adapt</li>
-            </ul>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# --------------------------------------------------
 # ABOUT
 # --------------------------------------------------
-elif nav == "ℹ️ About":
+if nav == "ℹ️ About":
     st.markdown("""
     <div class="card">
     <p>
