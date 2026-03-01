@@ -188,7 +188,7 @@ if not st.session_state.logged_in:
         padding: 8px 16px;
         border-radius: 20px;
         margin: 5px;
-        color: white;
+        color: #000000;
         font-size: 13px;
         font-weight: 600;
         backdrop-filter: blur(10px);
@@ -365,7 +365,7 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.5px;
 }
 
-p, span, div, li {
+p, li {
     color: #2d3748 !important;
 }
 
@@ -428,15 +428,17 @@ button {
 }
 
 .stButton > button {
-    background: #374151 !important;
-    color: white !important;
+    background: #2563eb !important;
+    color: #ffffff !important;
     border: none !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3) !important;
+    font-weight: 700 !important;
 }
 
 .stButton > button:hover {
+    background: #1d4ed8 !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4) !important;
 }
 
 /* Model Badge */
@@ -488,7 +490,7 @@ button {
 }
 
 .main-header h1, .main-header h2, .main-header p {
-    color: white !important;
+    color: #000000 !important;
     position: relative;
     z-index: 1;
 }
@@ -540,186 +542,60 @@ button {
     color: #000000 !important;
 }
 
-/* Fix selectbox dropdown visibility - FORCE BLACK TEXT - COMPREHENSIVE */
-.stSelectbox {
-    color: #000000 !important;
-}
+/* ========================================
+   SELECTBOX FIX - CLEAN VERSION
+   ======================================== */
 
-.stSelectbox [data-baseweb="select"] {
-    background-color: white !important;
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] > div {
-    background-color: white !important;
-    color: #000000 !important;
-}
-
-/* Fix selected value text color in selectbox - CRITICAL */
-.stSelectbox [data-baseweb="select"] [role="button"] {
-    color: #000000 !important;
-    background-color: white !important;
-}
-
-.stSelectbox [data-baseweb="select"] [role="button"] > div {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] [role="button"] div {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] span {
-    color: #000000 !important;
-}
-
-.stSelectbox div[data-baseweb="select"] div {
-    color: #000000 !important;
-}
-
-.stSelectbox [id*="baseweb-select"] {
-    color: #000000 !important;
-}
-
-/* Target the value container specifically - FORCE BLACK */
-.stSelectbox [data-baseweb="select"] [class*="ValueContainer"] {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] [class*="ValueContainer"] * {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] [class*="SingleValue"] {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] [class*="Input"] {
-    color: #000000 !important;
-}
-
-/* Target all nested elements in selectbox */
-.stSelectbox * {
-    color: #000000 !important;
-}
-
+/* Selectbox label */
 .stSelectbox label {
     color: #000000 !important;
+    font-weight: 700 !important;
 }
 
-/* Override any inline styles that might be white */
-.stSelectbox div[data-baseweb="select"] > div > div {
+/* Control container - white background */
+[data-baseweb="select"] > div {
+    background-color: white !important;
+    border: 2px solid #e2e8f0 !important;
+}
+
+/* Selected value text - black */
+[data-baseweb="select"] [class*="singleValue"] {
     color: #000000 !important;
 }
 
-.stSelectbox [data-baseweb="select"] input {
+/* Input field when typing */
+[data-baseweb="select"] input {
     color: #000000 !important;
 }
 
-/* Force black text on the actual displayed value - ALL VARIATIONS */
-.stSelectbox [class*="css"] {
-    color: #000000 !important;
+/* Placeholder text - gray */
+[data-baseweb="select"] [class*="placeholder"] {
+    color: #6b7280 !important;
 }
 
-.stSelectbox [class*="st-"] {
-    color: #000000 !important;
-}
-
-/* Ensure select element text is black */
-select, select option {
-    color: #000000 !important;
+/* Dropdown popover - white background */
+[data-baseweb="popover"] {
     background-color: white !important;
 }
 
-/* Fix the actual selected text display - ALL CASE VARIATIONS */
-.stSelectbox [data-baseweb="select"] [class*="singleValue"] {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] [class*="SingleValue"] {
-    color: #000000 !important;
-}
-
-.stSelectbox [data-baseweb="select"] [class*="single-value"] {
-    color: #000000 !important;
-}
-
-.stSelectbox input {
-    color: #000000 !important;
-}
-
-/* Target all divs within selectbox control */
-.stSelectbox [class*="control"] {
-    color: #000000 !important;
-}
-
-.stSelectbox [class*="control"] * {
-    color: #000000 !important;
-}
-
-/* Force on all baseui select components */
-[data-baseweb="select"] {
-    color: #000000 !important;
-}
-
-[data-baseweb="select"] * {
-    color: #000000 !important;
-}
-
-/* Dropdown menu items */
-.stSelectbox [data-baseweb="popover"] {
-    background-color: white !important;
-}
-
-[role="listbox"] {
-    background-color: white !important;
-}
-
+/* Dropdown options */
 [role="option"] {
     background-color: white !important;
     color: #000000 !important;
 }
 
+/* Dropdown options on hover */
 [role="option"]:hover {
-    background-color: #f7fafc !important;
-    color: #000000 !important;
+    background-color: #f0f9ff !important;
 }
 
-.stSelectbox option {
+/* Native select fallback */
+select, select option {
+    color: #000000 !important;
     background-color: white !important;
-    color: #000000 !important;
 }
 
-/* MAXIMUM STRENGTH - Force black text in ALL selectbox scenarios */
-div[data-baseweb="select"] div {
-    color: #000000 !important;
-}
-
-div[data-baseweb="select"] span {
-    color: #000000 !important;
-}
-
-div[data-baseweb="select"] > div > div > div {
-    color: #000000 !important;
-}
-
-/* Target Streamlit's specific implementation */
-[data-testid="stSelectbox"] div {
-    color: #000000 !important;
-}
-
-[data-testid="stSelectbox"] span {
-    color: #000000 !important;
-}
-
-/* Ultra-specific for the displayed selected value */
-.stSelectbox > div > div > div > div {
-    color: #000000 !important;
-}
-
-.stSelectbox > div > div > div > div > div {
-    color: #000000 !important;
-}
+/* ======================================== */
 
 /* Metric styling with modern cards */
 .stMetric {
