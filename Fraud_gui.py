@@ -496,9 +496,7 @@ button {
 }
 
 /* Input fields with premium feel */
-.stTextInput > div > div > input,
-.stNumberInput > div > div > input,
-.stSelectbox > div > div {
+.stTextInput > div > div > input {
     background-color: white !important;
     color: #2d3748 !important;
     border: 2px solid #e2e8f0 !important;
@@ -507,6 +505,43 @@ button {
     font-size: 15px !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+
+/* All number inputs - white background by default */
+.stNumberInput > div > div > input {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+    font-size: 15px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+
+/* ===== FORCE WHITE NUMBER INPUT CONTAINER ===== */
+
+div[data-testid="stNumberInput"] > div {
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    border: 2px solid #e2e8f0 !important;
+}
+
+/* Remove dark theme background layer */
+div[data-testid="stNumberInput"] > div > div {
+    background-color: #ffffff !important;
+}
+
+/* Ensure text stays black */
+div[data-testid="stNumberInput"] input {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+}
+
+/* Remove black spin button background */
+div[data-testid="stNumberInput"] button {
+    background-color: #ffffff !important;
+    color: #000000 !important;
 }
 
 .stTextInput > div > div > input:focus,
@@ -543,56 +578,55 @@ button {
 }
 
 /* ========================================
-   SELECTBOX FIX - CLEAN VERSION
+   FINAL SELECTBOX FIX - LIGHT DROPDOWN
    ======================================== */
 
-/* Selectbox label */
-.stSelectbox label {
-    color: #000000 !important;
-    font-weight: 700 !important;
-}
-
-/* Control container - white background */
+/* Main select control */
 [data-baseweb="select"] > div {
-    background-color: white !important;
+    background-color: #ffffff !important;
     border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
 }
 
-/* Selected value text - black */
-[data-baseweb="select"] [class*="singleValue"] {
+/* Selected value text */
+[data-baseweb="select"] span,
+[data-baseweb="select"] div {
     color: #000000 !important;
 }
 
-/* Input field when typing */
-[data-baseweb="select"] input {
+/* ===== FIX DROPDOWN MENU ===== */
+
+/* Entire dropdown popover container */
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div {
+    background-color: #ffffff !important;
     color: #000000 !important;
 }
 
-/* Placeholder text - gray */
-[data-baseweb="select"] [class*="placeholder"] {
-    color: #6b7280 !important;
+/* Dropdown menu list */
+ul[role="listbox"] {
+    background-color: #ffffff !important;
 }
 
-/* Dropdown popover - white background */
-[data-baseweb="popover"] {
-    background-color: white !important;
-}
-
-/* Dropdown options */
-[role="option"] {
-    background-color: white !important;
+/* Individual options */
+li[role="option"],
+div[role="option"] {
+    background-color: #ffffff !important;
     color: #000000 !important;
 }
 
-/* Dropdown options on hover */
-[role="option"]:hover {
-    background-color: #f0f9ff !important;
+/* Hover state */
+li[role="option"]:hover,
+div[role="option"]:hover {
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
 }
 
-/* Native select fallback */
-select, select option {
+/* Selected option inside dropdown */
+li[aria-selected="true"],
+div[aria-selected="true"] {
+    background-color: #e5e7eb !important;
     color: #000000 !important;
-    background-color: white !important;
 }
 
 /* ======================================== */
@@ -643,26 +677,29 @@ select, select option {
     font-weight: 600;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-left: 5px solid;
+    background: white !important;
 }
 
 .stSuccess {
-    background: #D1FAE5;
     border-left-color: #10B981;
 }
 
 .stError {
-    background: #FEE2E2;
     border-left-color: #DC2626;
 }
 
 .stWarning {
-    background: #FEF3C7;
     border-left-color: #F59E0B;
 }
 
 .stInfo {
-    background: #DBEAFE;
     border-left-color: #3B82F6;
+}
+
+/* Ensure alert text is black */
+.stSuccess, .stWarning, .stError, .stInfo,
+.stSuccess *, .stWarning *, .stError *, .stInfo * {
+    color: #000000 !important;
 }
 
 /* User info badge */
@@ -940,9 +977,9 @@ elif nav == "🔍 Prediction":
             )
             st.error(f"🔴 {level} - FRAUD PROBABILITY: {prob:.2f}%")
             st.markdown("""
-            <div style='background: #FEE2E2; padding: 20px; border-radius: 10px; border-left: 5px solid #DC2626;'>
-                <div style='color: #DC2626; margin: 0; font-weight: bold;'>⛔ PRE-TRANSACTION ALERT: BLOCK THIS TRANSACTION</div>
-                <p style='color: #7F1D1D; margin-top: 10px;'>This transaction has been flagged as HIGH RISK before processing. Do NOT proceed with this payment.</p>
+            <div style='background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #DC2626;'>
+                <div style='color: #000000; margin: 0; font-weight: bold;'>⛔ PRE-TRANSACTION ALERT: BLOCK THIS TRANSACTION</div>
+                <p style='color: #000000; margin-top: 10px;'>This transaction has been flagged as HIGH RISK before processing. Do NOT proceed with this payment.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -954,9 +991,9 @@ elif nav == "🔍 Prediction":
             )
             st.warning(f"🟡 {level} - FRAUD PROBABILITY: {prob:.2f}%")
             st.markdown("""
-            <div style='background: #FEF3C7; padding: 20px; border-radius: 10px; border-left: 5px solid #F59E0B;'>
-                <div style='color: #D97706; margin: 0; font-weight: bold;'>⚠️ PRE-TRANSACTION WARNING: MANUAL REVIEW REQUIRED</div>
-                <p style='color: #78350F; margin-top: 10px;'>This transaction shows suspicious patterns. Verify user identity before proceeding.</p>
+            <div style='background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #F59E0B;'>
+                <div style='color: #000000; margin: 0; font-weight: bold;'>⚠️ PRE-TRANSACTION WARNING: MANUAL REVIEW REQUIRED</div>
+                <p style='color: #000000; margin-top: 10px;'>This transaction shows suspicious patterns. Verify user identity before proceeding.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -968,9 +1005,9 @@ elif nav == "🔍 Prediction":
             )
             st.success(f"🟢 {level} - FRAUD PROBABILITY: {prob:.2f}%")
             st.markdown("""
-            <div style='background: #D1FAE5; padding: 20px; border-radius: 10px; border-left: 5px solid #10B981;'>
-                <div style='color: #065F46; margin: 0; font-weight: bold;'>✅ PRE-TRANSACTION CHECK: SAFE TO PROCEED</div>
-                <p style='color: #064E3B; margin-top: 10px;'>Transaction appears legitimate. You may proceed with processing.</p>
+            <div style='background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #10B981;'>
+                <div style='color: #000000; margin: 0; font-weight: bold;'>✅ PRE-TRANSACTION CHECK: SAFE TO PROCEED</div>
+                <p style='color: #000000; margin-top: 10px;'>Transaction appears legitimate. You may proceed with processing.</p>
             </div>
             """, unsafe_allow_html=True)
 
