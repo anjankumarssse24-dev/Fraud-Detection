@@ -207,7 +207,6 @@ if not st.session_state.logged_in:
     <div class="logo-container">
         <div class="logo-icon">🛡️</div>
         <div style="color: white !important; font-size: 56px; margin: 15px 0 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 900;">FraudGuard</div>
-        <p style="color: #E0E7FF; font-size: 20px; margin: 10px 0 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.2);">AI-Powered Fraud Detection Platform</p>
         <div style="margin-top: 20px;">
             <span class="feature-badge">🤖 Machine Learning</span>
             <span class="feature-badge">⚡ Real-Time</span>
@@ -217,107 +216,95 @@ if not st.session_state.logged_in:
     """, unsafe_allow_html=True)
 
     # Toggle between login and register with enhanced design
-    col1, col2, col3 = st.columns([1, 3, 1])
-    with col2:
-        tab_col1, tab_col2 = st.columns(2)
-        with tab_col1:
-            login_active = "primary" if st.session_state.page == "login" else "secondary"
-            if st.button("🔐 Sign In", width="stretch", type=login_active, key="tab_login"):
-                st.session_state.page = "login"
-                st.rerun()
-        with tab_col2:
-            register_active = "primary" if st.session_state.page == "register" else "secondary"
-            if st.button("📝 Register", width="stretch", type=register_active, key="tab_register"):
-                st.session_state.page = "register"
-                st.rerun()
-
-    st.markdown("<br>", unsafe_allow_html=True)
+    tab_col1, tab_col2 = st.columns(2)
+    with tab_col1:
+        login_active = "primary" if st.session_state.page == "login" else "secondary"
+        if st.button("🔐 Sign In", width="stretch", type=login_active, key="tab_login"):
+            st.session_state.page = "login"
+            st.rerun()
+    with tab_col2:
+        register_active = "primary" if st.session_state.page == "register" else "secondary"
+        if st.button("📝 Register", width="stretch", type=register_active, key="tab_register"):
+            st.session_state.page = "register"
+            st.rerun()
 
     # Login Page with enhanced UI
     if st.session_state.page == "login":
-        col1, col2, col3 = st.columns([1, 3, 1])
-        with col2:
-            st.markdown('<div class="auth-card">', unsafe_allow_html=True)
-            st.markdown("""
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <div style='color: #000000; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Welcome Back! 👋</div>
-                    <p style='color: #718096; font-size: 15px;'>Sign in to continue to your account</p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-            username = st.text_input("👤 USERNAME", key="login_username", placeholder="Enter your username")
-            password = st.text_input("🔒 PASSWORD", type="password", key="login_password", placeholder="Enter your password")
-            
-            st.markdown("<br>", unsafe_allow_html=True)
-            
-            if st.button("🚀 LOGIN", width="stretch", key="login_btn"):
-                if username and password:
-                    if verify_user(username, password):
-                        st.session_state.logged_in = True
-                        st.session_state.username = username
-                        st.success(f"✅ Welcome back, {username}!")
-                        st.balloons()
-                        st.rerun()
-                    else:
-                        st.error("❌ Invalid username or password. Please try again.")
+        st.markdown("""
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style='color: #000000; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Welcome Back! 👋</div>
+                <p style='color: #718096; font-size: 15px;'>Sign in to continue to your account</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        username = st.text_input("👤 USERNAME", key="login_username", placeholder="Enter your username")
+        password = st.text_input("🔒 PASSWORD", type="password", key="login_password", placeholder="Enter your password")
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        if st.button("🚀 LOGIN", width="stretch", key="login_btn"):
+            if username and password:
+                if verify_user(username, password):
+                    st.session_state.logged_in = True
+                    st.session_state.username = username
+                    st.success(f"✅ Welcome back, {username}!")
+                    st.balloons()
+                    st.rerun()
                 else:
-                    st.warning("⚠️ Please enter both username and password")
-            
-            st.markdown("""
-                <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-                    <p style='color: #718096; font-size: 14px;'>Don't have an account? Switch to <strong>Sign Up</strong> tab above</p>
-                </div>
-            """, unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+                    st.error("❌ Invalid username or password. Please try again.")
+            else:
+                st.warning("⚠️ Please enter both username and password")
+        
+        st.markdown("""
+            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                <p style='color: #718096; font-size: 14px;'>Don't have an account? Switch to <strong>Sign Up</strong> tab above</p>
+            </div>
+        """, unsafe_allow_html=True)
 
     # Registration Page with enhanced UI
     elif st.session_state.page == "register":
-        col1, col2, col3 = st.columns([1, 3, 1])
-        with col2:
-            st.markdown('<div class="auth-card">', unsafe_allow_html=True)
-            st.markdown("""
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <div style='color: #000000; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Create Account 🎉</div>
-                    <p style='color: #718096; font-size: 15px;'>Join FraudGuard to protect your transactions</p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-            new_username = st.text_input("👤 USERNAME", key="reg_username", placeholder="Choose a unique username")
-            new_email = st.text_input("📧 EMAIL ADDRESS", key="reg_email", placeholder="your.email@example.com")
-            
-            col_pass1, col_pass2 = st.columns(2)
-            with col_pass1:
-                new_password = st.text_input("🔒 PASSWORD", type="password", key="reg_password", placeholder="Min 6 characters")
-            with col_pass2:
-                confirm_password = st.text_input("🔒 CONFIRM", type="password", key="reg_confirm", placeholder="Re-enter password")
-            
-            st.markdown("<br>", unsafe_allow_html=True)
-            
-            if st.button("✨ CREATE ACCOUNT", width="stretch", key="register_btn"):
-                if new_username and new_email and new_password and confirm_password:
-                    if len(new_password) < 6:
-                        st.error("❌ Password must be at least 6 characters long")
-                    elif new_password != confirm_password:
-                        st.error("❌ Passwords do not match. Please check and try again.")
-                    else:
-                        success, message = register_user(new_username, new_password, new_email)
-                        if success:
-                            st.success(f"✅ {message} Your account is ready!")
-                            st.balloons()
-                            st.info("🔄 Redirecting to login page...")
-                            st.session_state.page = "login"
-                            st.rerun()
-                        else:
-                            st.error(f"❌ {message}. Please try a different username.")
+        st.markdown("""
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style='color: #000000; font-size: 32px; margin-bottom: 10px; font-weight: bold;'>Create Account 🎉</div>
+                <p style='color: #718096; font-size: 15px;'>Join FraudGuard to protect your transactions</p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        new_username = st.text_input("👤 USERNAME", key="reg_username", placeholder="Choose a unique username")
+        new_email = st.text_input("📧 EMAIL ADDRESS", key="reg_email", placeholder="your.email@example.com")
+        
+        col_pass1, col_pass2 = st.columns(2)
+        with col_pass1:
+            new_password = st.text_input("🔒 PASSWORD", type="password", key="reg_password", placeholder="Min 6 characters")
+        with col_pass2:
+            confirm_password = st.text_input("🔒 CONFIRM", type="password", key="reg_confirm", placeholder="Re-enter password")
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        if st.button("✨ CREATE ACCOUNT", width="stretch", key="register_btn"):
+            if new_username and new_email and new_password and confirm_password:
+                if len(new_password) < 6:
+                    st.error("❌ Password must be at least 6 characters long")
+                elif new_password != confirm_password:
+                    st.error("❌ Passwords do not match. Please check and try again.")
                 else:
-                    st.warning("⚠️ Please fill in all fields to continue")
-            
-            st.markdown("""
-                <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-                    <p style='color: #718096; font-size: 14px;'>Already have an account? Switch to <strong>Sign In</strong> tab above</p>
-                </div>
-            """, unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+                    success, message = register_user(new_username, new_password, new_email)
+                    if success:
+                        st.success(f"✅ {message} Your account is ready!")
+                        st.balloons()
+                        st.info("🔄 Redirecting to login page...")
+                        st.session_state.page = "login"
+                        st.rerun()
+                    else:
+                        st.error(f"❌ {message}. Please try a different username.")
+            else:
+                st.warning("⚠️ Please fill in all fields to continue")
+        
+        st.markdown("""
+            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                <p style='color: #718096; font-size: 14px;'>Already have an account? Switch to <strong>Sign In</strong> tab above</p>
+            </div>
+        """, unsafe_allow_html=True)
 
     st.stop()
 
@@ -745,7 +732,6 @@ st.markdown("""
 <div class="main-header">
     <div style="text-align:center; color: #000000; margin: 0; font-size: 2.5em; font-weight: bold;">🛡️ FRAUDGUARD</div>
     <div style="text-align:center; color: #000000; margin: 10px 0; font-size: 24px; font-weight: 600;">Online Payment Fraud Detection System</div>
-    <p style="text-align:center; color: #000000; font-size: 16px;">🤖 AI-Powered Machine Learning Dashboard | 🎯 Real-Time Risk Scoring | ⚡ Pre-Transaction Fraud Prevention</p>
 </div>
 """, unsafe_allow_html=True)
 
